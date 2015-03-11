@@ -1,6 +1,6 @@
 window.onload = function() {
-  var btn_register = document.getElementById("btn_register");
-  btn_register.onclick = function() {
+  var btnRegister = document.getElementById("btn_register");
+  btnRegister.onclick = function() {
     var username = document.getElementById('username').value;
     var password = document.getElementById('password').value;
 

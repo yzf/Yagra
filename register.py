@@ -2,14 +2,15 @@
 # -*- coding: utf-8 -*-
 import cgi
 import json
+import hashlib
 import MySQLdb
 
 def register(username, password):
     sql_cmd = """INSERT INTO `user`
                  (`username`, `password`) VALUES
-                 ('%s', password('%s'));""" % (username, password)
+                 ('%s', '%s');""" % (username, hashlib.md5(password).hexdigest())
     # 连接数据库
-    db = MySQLdb.connect("localhost", "root", "j", "yagra")
+    db = MySQLdb.connect('localhost', 'root', 'j', 'yagra')
     # 获取操作游标
     cursor = db.cursor()
     # 进行插入操作
