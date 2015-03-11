@@ -3,23 +3,22 @@
 import cgi
 import json
 
-response_header = 'Content-type: text/html'
-failure_info = 'Failure'
-success_info = 'Success'
+def login(username, password):
+    sql_cmd = """SELECT 1 from `user` where
+                 `username`='%s' and `password`=password('%s');""" % (username, password)
+    return sql_cmd
 
 if __name__ == '__main__':
-    response_data = {'status': 1,
-            'info': failure_info}
-    # Check if username and password are correct
-    check_result = True
-    username = cgi.FieldStorage().getvalue('username')
-    password = cgi.FieldStorage().getvalue('password')
+    response_header = 'Content-type: application/json'
 
-    if check_result:
-        response_data['status'] = 0
-        response_data['info'] = success_info
+    response_data = {'status': 1,
+            'info': '账号和密码不匹配'}
+    # 检查账号和密码是否匹配
+    username = cgi.FieldStorage().getvalue('username', 'Unknown')
+    password = cgi.FieldStorage().getvalue('password', 'Unknown')
 
     # print response to client
     print response_header
     print #end of header
-    print json.dumps(data)
+    response_data['info'] = login(username, password)
+    print json.dumps(response_data)
