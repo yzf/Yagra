@@ -1,17 +1,22 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import cgi
 import os
-import db
+import cgi
+import util
 import hashlib
-import cgitb; cgitb.enable()
+import imghdr
+import shutil
 
 def save_avatar(username, avatar):
-    filename = './images/' + hashlib.md5(username).hexdigest()
+    filename = r'./images/' + hashlib.md5(username).hexdigest()
+    filename_tmp = r'/tmp/' + hashlib.md5(username).hexdigest()
     is_success = False
     try:
-        open(filename, 'wb').write(avatar.file.read())
-        is_success = True
+        file(filename_tmp, 'wb').write(avatar.file.read())
+        if imghdr.what(filename_tmp):
+            shutil.copy(filename_tmp, filename)
+            os.remove(filename_tmp)
+            is_success = True
     except:
         pass
     return is_success
@@ -19,26 +24,21 @@ def save_avatar(username, avatar):
 if __name__ == '__main__':
     form = cgi.FieldStorage()
     avatar = form['avatar']
-    is_success = False
+    info = '头像上传失败'
     # 保存头像
     if avatar.filename:
         # 获取登录后的用户名
-        if os.environ.has_key('HTTP_COOKIE'):
-            username = ''
-            password = ''
-            for cookie_item in os.environ['HTTP_COOKIE'].split(';'):
-                cookie_item = cookie_item.strip()
-                (key, value) = cookie_item.split('=')
-                if key == 'username':
-                    username = value
-                if key == 'password':
-                    password = value
-            if db.is_user_valid(username, password):
-                is_success = save_avatar(username, avatar)
+        cookie = util.get_data_from_cookie()
+        username = cookie.get('username')
+        password = cookie.get('password')
+        if username and password and util.is_user_valid(username, password):
+            if save_avatar(username, avatar):
+                info = '头像上传成功'
+        else:
+            info = '请先登录'
+    else:
+        info = '请选择上传文件'
     # 响应客户端
     print 'Content-Type: text/html'
     print
-    if is_success == True:
-        print '头像上传成功'
-    else:
-        print '头像上传失败'
+    print file(r'html/info.html', 'r').read() % info

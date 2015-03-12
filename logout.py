@@ -14,5 +14,6 @@ if __name__ == '__main__':
     print cookie
     print response_header
     print
+    print file(r'html/login.html', 'r').read()
 
 

@@ -2,13 +2,13 @@
 # -*- coding: utf-8 -*-
 import cgi
 import json
-import db
+import util
 import hashlib
 
 def register(username, password):
     password = hashlib.md5(password).hexdigest()
-    if db.has_user(username) == False:
-        return db.add_user(username, password)
+    if util.has_user(username) == False:
+        return util.add_user(username, password)
     return False
 
 if __name__ == '__main__':

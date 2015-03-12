@@ -2,12 +2,12 @@
 # -*- coding: utf-8 -*-
 import cgi
 import json
-import db
+import util
 import hashlib
 
 def login(username, password):
     password = hashlib.md5(password).hexdigest()
-    if db.is_user_valid(username, password):
+    if util.is_user_valid(username, password):
         # 登录成功，设置cookie
         print "Set-Cookie:username=%s;" % username
         print "Set-Cookie:password=%s;" % password

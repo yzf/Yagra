@@ -9,7 +9,7 @@ window.onload = function() {
       responseData = eval('(' + responseText + ')');
       if (responseData.status == 0) {
         // 注册成功
-        alert(responseData.info);
+        window.location.href = 'page_handler.py?page=html/upload_avatar.html';
       }
       else {
         // 注册失败

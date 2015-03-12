@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import MySQLdb
+import os
 
 def add_user(username, password):
     sql_cmd = """INSERT INTO `user`
@@ -51,4 +52,13 @@ def has_user(username):
     if data == None:
         return False
     return True
+
+def get_data_from_cookie():
+    data = {}
+    if os.environ.has_key('HTTP_COOKIE'):
+        for cookie_item in os.environ['HTTP_COOKIE'].split(';'):
+            cookie_item = cookie_item.strip()
+            (key, value) = cookie_item.split('=')
+            data.setdefault(key, value)
+    return data
 
