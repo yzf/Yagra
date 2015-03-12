@@ -2,29 +2,14 @@
 # -*- coding: utf-8 -*-
 import cgi
 import json
+import db
 import hashlib
-import MySQLdb
 
 def register(username, password):
-    sql_cmd = """INSERT INTO `user`
-                 (`username`, `password`) VALUES
-                 ('%s', '%s');""" % (username, hashlib.md5(password).hexdigest())
-    # 连接数据库
-    db = MySQLdb.connect('localhost', 'root', 'j', 'yagra')
-    # 获取操作游标
-    cursor = db.cursor()
-    # 进行插入操作
-    is_success = True
-    try:
-        cursor.execute(sql_cmd)
-        db.commit()
-    except:
-        is_success = False
-        db.rollback()
-    finally:
-        # 关闭数据库连接
-        db.close()
-    return is_success
+    password = hashlib.md5(password).hexdigest()
+    if db.has_user(username) == False:
+        return db.add_user(username, password)
+    return False
 
 if __name__ == '__main__':
     response_header = 'Content-type: application/json'
@@ -32,10 +17,11 @@ if __name__ == '__main__':
     response_data = {'status': 1,
             'info': '注册失败'}
     # 获取客户端的数据
-    username = cgi.FieldStorage().getvalue('username', 'Unknown')
-    password = cgi.FieldStorage().getvalue('password', 'Unknown')
+    form = cgi.FieldStorage()
+    username = form.getvalue('username')
+    password = form.getvalue('password')
 
-    if username != 'Unknown' and password != 'Unknown':
+    if username and password:
         if register(username, password) == True:
             response_data['status'] = 0
             response_data['info'] = '注册成功'
