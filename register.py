@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+"""该模块用于响应用户的注册操作"""
 import cgi
 import json
 import util
@@ -7,6 +8,11 @@ import hashlib
 
 
 def register(username, password):
+    """
+    进行注册操作
+    若成功，返回True
+    若失败，返回Flase
+    """
     password = hashlib.md5(password).hexdigest()
     if util.has_user(username) == False:
         return util.add_user(username, password)

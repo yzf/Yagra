@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+"""该模块用于处理用户的登录请求"""
 import cgi
 import json
 import util
@@ -7,6 +8,11 @@ import hashlib
 
 
 def login(username, password):
+    """
+    进行登录操作
+    若成功，输出cookie设置给客户端，并返回True
+    若失败，返回False
+    """
     password = hashlib.md5(password).hexdigest()
     if util.is_user_valid(username, password):
         # 登录成功，设置cookie

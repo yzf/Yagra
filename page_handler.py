@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+"""该模块用于静态页面的获取，包括html、css和js"""
 import cgi
 import os
 

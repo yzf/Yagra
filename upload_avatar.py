@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+"""该模块用于上传头像"""
 import os
 import cgi
 import util
@@ -9,6 +10,11 @@ import shutil
 
 
 def save_avatar(username, avatar):
+    """
+    保存用户的头像，只有imghdr.what能检测到的图片类型才能成功保存
+    若成功，返回True
+    若失败，返回False
+    """
     filename = r'./images/' + hashlib.md5(username).hexdigest()
     filename_tmp = r'/tmp/' + hashlib.md5(username).hexdigest()
     is_success = False

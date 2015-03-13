@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+"""这个模块用来响应用户对头像的请求"""
 import cgi
 import os
 import imghdr
