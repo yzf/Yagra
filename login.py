@@ -26,7 +26,7 @@ if __name__ == '__main__':
     username = form.getvalue('username')
     password = form.getvalue('password')
     # 验证通过
-    if login(username, password) == True:
+    if username and password and login(username, password) == True:
         response_data['status'] = 0
         response_data['info'] = '登录成功'
     # 响应客户端

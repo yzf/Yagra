@@ -20,3 +20,15 @@ var ajax = function(url, callback) {
     }
   };
 };
+
+
+var checkData = function(username, password) {
+  var reUsername = /^[a-zA-z]\w{5,15}$/;
+  var rePassword = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{6,12}$/;
+  console.log(reUsername.test(username));
+  console.log(rePassword.test(password));
+  if (reUsername.test(username) && rePassword.test(password)) {
+    return true;
+  }
+  return false;
+};

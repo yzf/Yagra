@@ -26,7 +26,7 @@ if __name__ == '__main__':
     if username and password:
         if register(username, password) is True:
             response_data['status'] = 0
-            response_data['info'] = '注册成功'
+            response_data['info'] = '注册成功，请进行登录'
 
     print RESPONSE_HEADER
     print

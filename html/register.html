@@ -10,17 +10,17 @@
     <p>
       <label for="username">账号:</label>
       <input type="text" id="username" name="username" />
+      <br/>
+      <label class="tips">(字母、数字、下划线组成，字母开头，6-16位)</label>
     </p>
     <p>
       <label for="password">密码:</label>
       <input type="password" id="password" name="password" />
+      <br/>
+      <label class="tips">(字母和数字组成，且必须同时含有大小写字母和数字，6-12位)</label>
     </p>
-    <p>
-      <button id="btn_register">注册</button>
-    </p>
-    <p>
-      <a href="page_handler.py?page=html/login.html">登录</a>
-    </p>
+    <p><button id="btn_register">注册</button></p>
+    <p><a href="page_handler.py?page=html/login.html">登录</a></p>
     <script type="text/javascript" src="page_handler.py?page=js/common.js"></script>
     <script type="text/javascript" src="page_handler.py?page=js/register.js"></script>
   </body>
