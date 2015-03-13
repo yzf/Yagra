@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 import MySQLdb
 import os
+import re
 
 _DB_HOST = 'localhost'
 _DB_USER = 'root'
@@ -70,3 +71,12 @@ def get_data_from_cookie():
             (key, value) = cookie_item.split('=')
             data.setdefault(key, value)
     return data
+
+
+def check_data_format(username, password):
+    re_username = "^[a-zA-z]\w{5,15}$"
+    re_password = "^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{6,12}$"
+    if re.match(re_username, username) is None or\
+            re.match(re_password, password) is None:
+        return False
+    return True
