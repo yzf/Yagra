@@ -9,7 +9,8 @@ window.onload = function() {
       responseData = eval('(' + responseText + ')');
       if (responseData.status == 0) {
         // 注册成功
-        alert(responseData.info);
+        alert(responseData.info + '，请进行登录');
+        window.location.href = 'page_handler.py?page=html/login.html'
       }
       else {
         // 注册失败

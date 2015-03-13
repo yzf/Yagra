@@ -7,6 +7,7 @@ import hashlib
 import imghdr
 import shutil
 
+
 def save_avatar(username, avatar):
     filename = r'./images/' + hashlib.md5(username).hexdigest()
     filename_tmp = r'/tmp/' + hashlib.md5(username).hexdigest()
@@ -21,10 +22,12 @@ def save_avatar(username, avatar):
         pass
     return is_success
 
+
 if __name__ == '__main__':
     form = cgi.FieldStorage()
     avatar = form['avatar']
     info = '头像上传失败'
+
     # 保存头像
     if avatar.filename:
         # 获取登录后的用户名
@@ -37,7 +40,8 @@ if __name__ == '__main__':
         else:
             info = '请先登录'
     else:
-        info = '请选择上传文件'
+        info = '请重新选择上传文件'
+
     # 响应客户端
     print 'Content-Type: text/html'
     print
