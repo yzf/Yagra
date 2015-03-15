@@ -10,4 +10,4 @@ if __name__ == '__main__':
     # 结束回话
     util.delete_session()
     # 响应客户端
-    util.redirect('page_handler.py?page=html/login.html')
+    util.redirect('page_handler.py?page=login.html')

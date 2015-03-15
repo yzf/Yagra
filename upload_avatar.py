@@ -43,7 +43,7 @@ if __name__ == '__main__':
         session.close()
     else:
         # 未登录，跳转回登录页面
-        util.redirect('page_handler.py?page=html/login.html')
+        util.redirect('page_handler.py?page=login.html')
     # 响应客户端
     content_type = 'Content-Type: text/html'
     with open('html/upload_result.html', 'r') as info_file:

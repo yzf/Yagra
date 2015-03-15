@@ -7,17 +7,27 @@ import util
 
 
 if __name__ == '__main__':
+    PAGE_MAP = {
+        'common.css': 'css/common.css',
+        'login.html': 'html/login.html',
+        'redirect.html': 'html/redirect.html',
+        'register.html': 'html/register.html',
+        'common.js': 'js/common.js',
+        'login.js': 'js/login.js',
+        'register.js': 'js/register.js'
+    }
     # 获取表单参数
-    page = cgi.FieldStorage().getvalue('page', '')
+    page = cgi.FieldStorage().getvalue('page', 'login.html')
     page = cgi.escape(page)
+    # 防止目录遍历攻击
+    page = os.path.basename(page)
 
     flag = False
-    if page:
-        filename = page.strip()
+    if page and page in PAGE_MAP:
+        filename = PAGE_MAP[page]
         # 文件存在，且只能是html、css和js文件
-        if os.path.exists(filename) and ('.html' in filename or
-                                          '.css' in filename or
-                                          '.js' in filename):
+        if os.path.exists(filename) and\
+           ('.html' in filename or '.css' in filename or '.js' in filename):
             if '.html' in filename:
                 file_type = 'html'
             elif '.css' in filename:
