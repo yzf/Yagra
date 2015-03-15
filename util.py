@@ -7,6 +7,7 @@ import re
 import Cookie
 import shelve
 import sys
+import hashlib
 
 
 # 数据库相关的常量
@@ -185,3 +186,9 @@ def redirect(url):
         content = redirect_file.read() % url
     response('Content-Type: text/html', content)
     sys.exit(0)
+
+
+def encode(data, with_salt=True):
+    if with_salt is True:
+        return hashlib.md5('salt' + str(data)).hexdigest()
+    return hashlib.md5(str(data)).hexdigest()

@@ -5,7 +5,6 @@ import cgi
 import os
 import imghdr
 import util
-import hashlib
 
 
 if __name__ == '__main__':
@@ -30,7 +29,7 @@ if __name__ == '__main__':
         session = util.get_session()
         if session is not None:
             username = session.get('username', '')
-            user_image = IMAGE_FOLDER + hashlib.md5(username).hexdigest()
+            user_image = IMAGE_FOLDER + util.encode(username, with_salt=False)
             if username and os.path.exists(user_image):
                 avatar = user_image
             else:

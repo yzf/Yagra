@@ -4,7 +4,6 @@
 import cgi
 import json
 import util
-import hashlib
 
 
 def login(username, password):
@@ -13,7 +12,7 @@ def login(username, password):
     若成功，输出cookie设置给客户端，并返回True
     若失败，返回False
     """
-    password = hashlib.md5(password).hexdigest()
+    password = util.encode(password)
     if util.is_user_valid(username, password):
         # 登录成功，开启一个session
         util.new_session(username)

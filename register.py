@@ -4,7 +4,6 @@
 import cgi
 import json
 import util
-import hashlib
 
 
 def register(username, password):
@@ -13,7 +12,7 @@ def register(username, password):
     若成功，返回True
     若失败，返回Flase
     """
-    password = hashlib.md5(password).hexdigest()
+    password = util.encode(password)
     if util.has_user(username) is False:
         return util.add_user(username, password)
     return False
