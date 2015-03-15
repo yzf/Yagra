@@ -15,29 +15,28 @@ def login(username, password):
     """
     password = hashlib.md5(password).hexdigest()
     if util.is_user_valid(username, password):
-        # 登录成功，设置cookie
-        print "Set-Cookie:username=%s;" % username
-        print "Set-Cookie:password=%s;" % password
+        # 登录成功，开启一个session
+        util.new_session(username)
         return True
     return False
 
 
 if __name__ == '__main__':
-    RESPONSE_HEADER = 'Content-type: application/json'
-
     response_data = {'status': 1,
                      'info': '账号和密码不匹配'}
-    # 检查账号和密码是否匹配
+    # 获取客户端的数据
     form = cgi.FieldStorage()
     username = form.getvalue('username')
+    username = cgi.escape(username)
     password = form.getvalue('password')
+    password = cgi.escape(password)
     # 验证通过
     if username and password and\
             util.check_data_format(username, password) is True and\
-            login(username, password) == True:
+            login(username, password) is True:
         response_data['status'] = 0
         response_data['info'] = '登录成功'
     # 响应客户端
-    print RESPONSE_HEADER
-    print
-    print json.dumps(response_data)
+    content_type = 'Content-Type: application/json'
+    content = json.dumps(response_data)
+    util.response(content_type, content)

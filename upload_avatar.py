@@ -15,8 +15,8 @@ def save_avatar(username, avatar):
     若成功，返回True
     若失败，返回False
     """
-    filename = r'./images/' + hashlib.md5(username).hexdigest()
-    filename_tmp = r'/tmp/' + hashlib.md5(username).hexdigest()
+    filename = 'images/' + hashlib.md5(username).hexdigest()
+    filename_tmp = '/tmp/' + hashlib.md5(username).hexdigest()
     is_success = False
     try:
         file(filename_tmp, 'wb').write(avatar.file.read())
@@ -34,21 +34,18 @@ if __name__ == '__main__':
     avatar = form['avatar']
     info = '头像上传失败'
 
-    # 保存头像
-    if avatar.filename:
-        # 获取登录后的用户名
-        cookie = util.get_data_from_cookie()
-        username = cookie.get('username')
-        password = cookie.get('password')
-        if username and password and util.is_user_valid(username, password):
-            if save_avatar(username, avatar):
-                info = '头像上传成功'
-        else:
-            info = '请先登录'
+    session = util.get_session()
+    if session is not None:
+        username = session.get('username')
+        if username and save_avatar(username, avatar):
+            info = '头像上传成功'
     else:
-        info = '请重新选择上传文件'
+        info = '请先登录'
 
+    if session is not None:
+        session.close()
     # 响应客户端
-    print 'Content-Type: text/html'
-    print
-    print file(r'html/info.html', 'r').read() % info
+    content_type = 'Content-Type: text/html'
+    with open('html/upload_result.html', 'r') as info_file:
+        content = info_file.read() % info
+    util.response(content_type, content)

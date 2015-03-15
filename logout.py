@@ -3,19 +3,14 @@
 """该模块用于处理用户的退出登录请求"""
 import cgi
 import json
-import Cookie
+import util
 
 
 if __name__ == '__main__':
-    RESPONSE_HEADER = 'Content-Type: text/html'
-    # 把cookie中的username和password的有效期设置为已经过去的时间
-    cookie = Cookie.SimpleCookie()
-    cookie['username'] = ''
-    cookie['username']['expires'] = 'Thu, 01 Jan 1970 00:00:00 GMT'
-    cookie['password'] = ''
-    cookie['password']['expires'] = 'Thu, 01 Jan 1970 00:00:00 GMT'
-
-    print cookie
-    print RESPONSE_HEADER
-    print
-    print file(r'html/login.html', 'r').read()
+    # 结束回话
+    util.delete_session()
+    # 响应客户端
+    content_type = 'Content-Type: text/html'
+    with open('html/login.html', 'r') as login_page_file:
+        content = login_page_file.read()
+    util.response(content_type, content)
