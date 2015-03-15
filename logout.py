@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """该模块用于处理用户的退出登录请求"""
-import cgi
-import json
 import util
 
 

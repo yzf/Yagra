@@ -4,7 +4,6 @@
 import os
 import cgi
 import util
-import hashlib
 import imghdr
 import shutil
 
@@ -15,8 +14,8 @@ def save_avatar(username, avatar):
     若成功，返回True
     若失败，返回False
     """
-    filename = 'images/' + hashlib.md5(username).hexdigest()
-    filename_tmp = '/tmp/' + hashlib.md5(username).hexdigest()
+    filename = 'images/' + util.encode(username, with_salt=False)
+    filename_tmp = '/tmp/' + util.encode(username, with_salt=False)
     is_success = False
     try:
         file(filename_tmp, 'wb').write(avatar.file.read())

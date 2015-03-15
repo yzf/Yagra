@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-""""""
+"""主要用于个人主页(文件上传)页面的显示"""
 import util
 
 
