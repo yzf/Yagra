@@ -6,6 +6,7 @@ import os
 import re
 import Cookie
 import shelve
+import sys
 
 
 # 数据库相关的常量
@@ -177,3 +178,10 @@ def response(content_type, content):
     print content_type
     print
     print content
+
+
+def redirect(url):
+    with open('html/redirect.html', 'r') as redirect_file:
+        content = redirect_file.read() % url
+    response('Content-Type: text/html', content)
+    sys.exit(0)

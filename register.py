@@ -22,10 +22,12 @@ def register(username, password):
 if __name__ == '__main__':
     response_data = {'status': 1,
                      'info': '注册失败'}
-    # 获取客户端的数据
+    # 获取表单的数据
     form = cgi.FieldStorage()
-    username = form.getvalue('username')
-    password = form.getvalue('password')
+    username = form.getvalue('username', '')
+    username = cgi.escape(username)
+    password = form.getvalue('password', '')
+    password = cgi.escape(password)
 
     if username and password and\
             util.check_data_format(username, password) is True and\

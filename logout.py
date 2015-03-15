@@ -10,7 +10,4 @@ if __name__ == '__main__':
     # 结束回话
     util.delete_session()
     # 响应客户端
-    content_type = 'Content-Type: text/html'
-    with open('html/login.html', 'r') as login_page_file:
-        content = login_page_file.read()
-    util.response(content_type, content)
+    util.redirect('page_handler.py?page=html/login.html')

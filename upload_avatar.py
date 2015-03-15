@@ -31,19 +31,19 @@ def save_avatar(username, avatar):
 
 if __name__ == '__main__':
     form = cgi.FieldStorage()
-    avatar = form['avatar']
     info = '头像上传失败'
 
     session = util.get_session()
     if session is not None:
         username = session.get('username')
-        if username and save_avatar(username, avatar):
+        if username and\
+                'avatar' in form and\
+                save_avatar(username, form['avatar']):
             info = '头像上传成功'
-    else:
-        info = '请先登录'
-
-    if session is not None:
         session.close()
+    else:
+        # 未登录，跳转回登录页面
+        util.redirect('page_handler.py?page=html/login.html')
     # 响应客户端
     content_type = 'Content-Type: text/html'
     with open('html/upload_result.html', 'r') as info_file:

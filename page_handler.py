@@ -7,14 +7,14 @@ import util
 
 
 if __name__ == '__main__':
-    # 获取参数
-    page = cgi.FieldStorage().getvalue('page')
+    # 获取表单参数
+    page = cgi.FieldStorage().getvalue('page', '')
     page = cgi.escape(page)
 
     flag = False
     if page:
         filename = page.strip()
-        # 检测页面文件是否存在，且只能是html、css和js文件
+        # 文件存在，且只能是html、css和js文件
         if os.path.exists(filename) and ('.html' in filename or
                                           '.css' in filename or
                                           '.js' in filename):
