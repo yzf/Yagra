@@ -35,6 +35,8 @@ if __name__ == '__main__':
             else:
                 avatar = DEFAULT_AVATAR
             session.close()
+        else:
+            avatar = DEFAULT_AVATAR
     # 响应客户端
     content_type = 'Content-Type: image/' + imghdr.what(avatar)
     with open(avatar, 'rb') as avatar_file:
