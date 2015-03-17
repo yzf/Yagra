@@ -118,7 +118,13 @@ def new_sid():
     """
     生成新的sid
     """
-    return generate_random_string(32)
+    while True:
+        sid = generate_random_string(32)
+        session_filename = get_session_filename(sid)
+        # 确保sid不重复
+        if os.path.exists(session_filename) is False:
+            break;
+    return sid
 
 
 def new_session(username):
