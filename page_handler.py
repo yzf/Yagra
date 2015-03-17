@@ -9,9 +9,6 @@ import util
 if __name__ == '__main__':
     PAGE_MAP = {
         'common.css': 'css/common.css',
-        'login.html': 'html/login.html',
-        'redirect.html': 'html/redirect.html',
-        'register.html': 'html/register.html',
         'common.js': 'js/common.js',
         'login.js': 'js/login.js',
         'register.js': 'js/register.js'

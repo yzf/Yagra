@@ -29,22 +29,36 @@ def save_avatar(username, avatar):
 
 
 if __name__ == '__main__':
-    form = cgi.FieldStorage()
-    info = '头像上传失败'
-
-    session = util.get_session()
-    if session is not None:
-        username = session.get('username')
-        if username and\
-                'avatar' in form and\
-                save_avatar(username, form['avatar']):
-            info = '头像上传成功'
-        session.close()
+    request_method = os.environ.get('REQUEST_METHOD', '')
+    # 上传页面显示
+    if request_method.upper() == 'GET':
+        session = util.get_session()
+        if session is not None:
+            content_type = 'Content-Type: text/html'
+            with open('html/upload_avatar.html', 'r') as home_file:
+                content = home_file.read()
+            session.close()
+            util.response(content_type, content)
+        else:
+            util.redirect('login.py')
+    # 上传处理
     else:
-        # 未登录，跳转回登录页面
-        util.redirect('page_handler.py?page=login.html')
-    # 响应客户端
-    content_type = 'Content-Type: text/html'
-    with open('html/upload_result.html', 'r') as info_file:
-        content = info_file.read() % info
-    util.response(content_type, content)
+        form = cgi.FieldStorage()
+        info = '头像上传失败'
+
+        session = util.get_session()
+        if session is not None:
+            username = session.get('username')
+            if username and\
+                    'avatar' in form and\
+                    save_avatar(username, form['avatar']):
+                info = '头像上传成功'
+            session.close()
+        else:
+            # 未登录，跳转回登录页面
+            util.redirect('login.py')
+        # 响应客户端
+        content_type = 'Content-Type: text/html'
+        with open('html/upload_result.html', 'r') as info_file:
+            content = info_file.read() % info
+        util.response(content_type, content)

@@ -11,7 +11,7 @@ window.onload = function() {
         if (responseData.status == 0) {
           // 注册成功
           alert(responseData.info);
-          window.location.href = 'page_handler.py?page=html/login.html'
+          window.location.href = 'login.py'
         }
         else {
           // 注册失败

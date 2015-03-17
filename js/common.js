@@ -8,7 +8,7 @@ var ajax = function(url, callback) {
     oAjax = new ActiveXObject("Microsoft.XMLHTTP");
   }
   //2.连接服务器
-  oAjax.open('GET', url, true);   //open(方法, url, 是否异步)
+  oAjax.open('POST', url, true);   //open(方法, url, 是否异步)
   //3.发送请求
   oAjax.send();
   //4.接收返回

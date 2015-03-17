@@ -10,7 +10,7 @@ window.onload = function() {
         responseData = eval('(' + responseText + ')');
         if (responseData.status == 0) {
           // 注册成功
-          window.location.href = 'home.py';
+          window.location.href = 'upload_avatar.py';
         }
         else {
           // 注册失败
