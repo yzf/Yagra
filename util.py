@@ -21,7 +21,7 @@ _SESSION_DIR = '/tmp/'
 
 def add_user(username, password):
     """
-    添加用户，其中password应为用户密码的md5值
+    添加用户
     若成功，返回True，否则返回False
     """
     # 对于不同用户，salt不同
