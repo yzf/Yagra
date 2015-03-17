@@ -24,9 +24,12 @@ def add_user(username, password):
     添加用户，其中password应为用户密码的md5值
     若成功，返回True，否则返回False
     """
+    # 对于不同用户，salt不同
+    salt = generate_random_string(32)
+    password = encode(password, salt)
     sql_cmd = """INSERT INTO `user`
-                 (`username`, `password`) VALUES
-                 ('%s', '%s');""" % (username, password)
+                 (`username`, `password`, `salt`) VALUES
+                 ('%s', '%s', '%s');""" % (username, password, salt)
     # 连接数据库
     db = MySQLdb.connect(_DB_HOST, _DB_USER, _DB_PWD, _DB_NAME)
     # 获取操作游标
@@ -50,19 +53,24 @@ def is_user_valid(username, password):
     检测用户是否有效，验证账号和密码是否匹配
     若通过，返回True，否则返回False
     """
-    sql_cmd = """SELECT 1 from `user` where
-                 `username`='%s' and `password`='%s'
-                 limit 1;""" % (username, password)
+    sql_cmd = """SELECT `password` as 'password', `salt` as 'salt'
+                 from `user` where
+                 `username`='%s' limit 1;""" % username
     # 连接数据库
     db = MySQLdb.connect(_DB_HOST, _DB_USER, _DB_PWD, _DB_NAME)
     cursor = db.cursor()
-    # 进行账号密码检测
+    # 获取用户数据
     cursor.execute(sql_cmd)
     data = cursor.fetchone()
     db.close()
     if data is None:
         return False
-    return True
+    # 进行密码检测
+    encode_password = data[0]
+    salt = data[1]
+    if encode(password, salt) == encode_password:
+        return True
+    return False
 
 
 def has_user(username):
@@ -71,7 +79,7 @@ def has_user(username):
     若已注册，返回True，否则返回False
     """
     sql_cmd = """SELECT 1 from `user` where
-                 `username`='%s';""" % username
+                 `username`='%s' limit 1;""" % username
     # 连接数据库
     db = MySQLdb.connect(_DB_HOST, _DB_USER, _DB_PWD, _DB_NAME)
     cursor = db.cursor()
@@ -110,7 +118,7 @@ def new_sid():
     """
     生成新的sid
     """
-    return ''.join(map(lambda x: (hex(ord(x))[2:]), os.urandom(16)))
+    return generate_random_string(32)
 
 
 def new_session(username):
@@ -188,7 +196,16 @@ def redirect(url):
     sys.exit(0)
 
 
-def encode(data, with_salt=True):
-    if with_salt is True:
-        return hashlib.md5('salt' + str(data)).hexdigest()
-    return hashlib.md5(str(data)).hexdigest()
+def encode(data, salt=''):
+    """
+    计算data的md5值，若有salt，则将salt加到data前面，在计算
+    """
+    return hashlib.md5(salt + str(data)).hexdigest()
+
+
+def generate_random_string(len):
+    """
+    生成随机字符串，返回字符串长度必定为偶数
+    若len为奇数，那么返回字符串的长度为len - 1
+    """
+    return ''.join(map(lambda x: ('%02x' % (ord(x))), os.urandom(len / 2)))

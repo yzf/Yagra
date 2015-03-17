@@ -14,8 +14,8 @@ def save_avatar(username, avatar):
     若成功，返回True
     若失败，返回False
     """
-    filename = 'images/' + util.encode(username, with_salt=False)
-    filename_tmp = '/tmp/' + util.encode(username, with_salt=False)
+    filename = 'images/' + util.encode(username)
+    filename_tmp = '/tmp/' + util.encode(username)
     is_success = False
     try:
         file(filename_tmp, 'wb').write(avatar.file.read())

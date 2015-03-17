@@ -12,7 +12,6 @@ def register(username, password):
     若成功，返回True
     若失败，返回Flase
     """
-    password = util.encode(password)
     if util.has_user(username) is False:
         return util.add_user(username, password)
     return False
