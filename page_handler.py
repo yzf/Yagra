@@ -14,7 +14,7 @@ if __name__ == '__main__':
         'register.js': 'js/register.js'
     }
     # 获取表单参数
-    page = cgi.FieldStorage().getvalue('page', 'login.html')
+    page = cgi.FieldStorage().getvalue('page', '')
     page = cgi.escape(page)
     # 防止目录遍历攻击
     page = os.path.basename(page)
